@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://bug-explainer-ai.onrender.com";
+
 export default function ObservabilityDashboard() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,7 +65,7 @@ export default function ObservabilityDashboard() {
     };
 
     try {
-      const ingestResponse = await fetch("http://localhost:8000/api/v1/logs", {
+      const ingestResponse = await fetch(`${API_BASE_URL}/api/v1/logs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dynamicTelemetryPayload),
@@ -76,7 +78,7 @@ export default function ObservabilityDashboard() {
       setPipelineStatus("💾 Telemetry registered. Spawning LLM context worker...");
       setLiveLogs(prev => [`DB // Payload ingested with Log ID: ${logId.substring(0,8)}...`, ...prev]);
 
-      const analyzeResponse = await fetch(`http://localhost:8000/api/v1/logs/${logId}/analyze?github_url=${encodeURIComponent(githubUrl.trim())}`, { 
+      const analyzeResponse = await fetch(`${API_BASE_URL}/api/v1/logs/${logId}/analyze?github_url=${encodeURIComponent(githubUrl.trim())}`, { 
         method: "POST" 
       });
       
