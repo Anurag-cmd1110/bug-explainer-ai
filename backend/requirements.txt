@@ -3,4 +3,5 @@ uvicorn
 google-genai
 pydantic
 pymongo
+motor
 python-dotenv
