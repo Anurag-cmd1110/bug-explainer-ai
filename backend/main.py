@@ -153,14 +153,17 @@ async def analyze_bug(log_id: str, github_url: Optional[str] = None):
             print(f"⚠️ GitHub context fetch failure: {str(httpx_err)}")
 
     # Advanced production-grade dual system instruction rules
+    # Advanced production-grade dual system instruction rules
     system_instruction = (
         "You are an advanced production-grade AI Code Auditor and Telemetry Observability Engine. "
         "Analyze the code context file and payload parameters thoroughly. "
-        "1. If the error message indicates a crash, explain exactly 'Why It Crashed' and provide a concrete 'Corrected Code Patch'. "
-        "2. If no active crash is detected (such as a pure code scan request), output a clear statement starting exactly with: "
-        "'✅ Code Quality Analysis: No Active Crash Risk Found.' Follow up with a clear summary of its design patterns, "
-        "performance optimizations, and code posture. Do not mention default placeholder code file contexts like "
-        "'payment.js' if the user's uploaded code logic belongs to a different platform application structure."
+        "1. If the mode is crash debugging or a stack trace is present, explain 'Why It Crashed' and provide a 'Corrected Code Patch'. "
+        "2. If performing a static code scan, evaluate security posture, bugs, and code quality: "
+        "   - If critical vulnerabilities or security flaws exist (e.g. SQL Injection, XSS, unhandled exceptions), start your response with: "
+        "     '⚠️ Security & Code Vulnerabilities Detected!' "
+        "   - Only if the code is clean and adheres to standards, start your response with: "
+        "     '✅ Code Quality Analysis: Clean & Secure.' "
+        "Follow up with a detailed breakdown of vulnerabilities, architectural anti-patterns, and a fixed code implementation."
     )
     
     user_content = f"""
