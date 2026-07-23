@@ -1,0 +1,13 @@
+# Environment variables (API Keys)
+.env
+*.env
+
+# Python files
+__pycache__/
+*.pyc
+
+# Node modules / dependencies
+node_modules/
+.next/
+dist/
+build/
